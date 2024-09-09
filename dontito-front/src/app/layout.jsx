@@ -3,7 +3,7 @@ import Navbar from './components/navbar';
 import Footer from './components/footer';
 
 export const metadata = {
-  title: 'My Application', // Opcional, ajusta el título según tus necesidades
+  title: 'DonTitoYoungFlex', // Opcional, ajusta el título según tus necesidades
 };
 
 export default function Layout({ children }) {
