@@ -12,6 +12,7 @@ export default function Layout({ children }) {
       <body>
         <Navbar />
         <main>{children}</main>
+        <br></br>
         <Footer />
       </body>
     </html>

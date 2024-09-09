@@ -17,7 +17,7 @@ const Detalle = ({ producto, onClose }) => {
                 <Image
                     width={300}
                     height={400}
-                    src={producto.imagen}
+                    src={`data:image/jpeg;base64,${producto.imagen}`}
                     alt={producto.nombre}
                     className="w-full h-48 object-cover rounded-md mb-4"
                 />

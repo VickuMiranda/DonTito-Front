@@ -58,10 +58,11 @@ const ListaProductos = () => {
                         className="producto-card border rounded-lg p-4 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
                         onClick={() => handleProductClick(producto)}
                         >
-                            <Image
+                            <img
                                 width={200}
                                 height={300}
-                                src={producto.imagen}
+                    
+                                src={`data:image/jpeg;base64,${producto.imagen}`}
                                 alt={producto.nombre}
                                 className="w-full h-48 object-cover rounded-md"
                             /> 
@@ -79,7 +80,7 @@ const ListaProductos = () => {
             )}
 
             <Detalle producto={selectedProduct} onClose={handleCloseDetalle} />
-
+            
         </div>
     );
 };
