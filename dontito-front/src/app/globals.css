@@ -17,3 +17,23 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
 }
+
+.bg-custom {
+  background-color: #333131;
+}
+
+/* styles/globals.css */
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: black;
+  border: none;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button:hover {
+  text-decoration: underline;
+}
+

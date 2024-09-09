@@ -1,13 +1,13 @@
 import SectionA from "./components/SectionA";
-import SectionB from "./components/sectionB";
-import SectionC from "./components/sectionC";
+import SectionMarcas from "./components/sectionMarcas";
+import SectionSobreNosotros from "./components/sectionSobreNosotros";
 
 export default function Page(){
   return(
     <>
       <SectionA />
-      <SectionB />
-      <SectionC />
+      <SectionMarcas />
+      <SectionSobreNosotros />
     </>
   );
 }
