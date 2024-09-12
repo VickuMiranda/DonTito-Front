@@ -1,14 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'
 import ListaProductos from "./listaProductos";
 
 const Productos = () => {
-    const [searchTerm, setSearchTerm] = useState(''); // Estado para almacenar el término de búsqueda
-    const router = useRouter(); // Hook de React Router para navegar
+    const [searchTerm, setSearchTerm] = useState(''); 
 
     const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value); // Actualiza el estado del término de búsqueda
+        setSearchTerm(e.target.value); 
     };
 
     return (

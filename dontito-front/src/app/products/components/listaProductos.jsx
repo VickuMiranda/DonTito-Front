@@ -21,9 +21,9 @@ const ListaProductos = ({ searchTerm }) => {
                 setLoading(true);
                 const data = await getProductoList();
                 if (Array.isArray(data)) {
-                    setAllProductos(data); // Guardar todos los productos
-                    setProductos(data.slice(0, pageSize));  // Cargar los primeros productos
-                    setHasMore(data.length > pageSize);  // Verificar si hay más productos
+                    setAllProductos(data); 
+                    setProductos(data.slice(0, pageSize));  
+                    setHasMore(data.length > pageSize); 
                 } else {
                     console.error("Unexpected data format or no data:", data);
                     setProductos([]);
@@ -66,7 +66,7 @@ const ListaProductos = ({ searchTerm }) => {
     };
 
     const handleProductClick = (id) => {
-        router.push(`/products/detalle/${id}`);
+        router.push(`/products/${id}`);
     };
 
     if (loading) return <p>Cargando productos...</p>;

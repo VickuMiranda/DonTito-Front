@@ -38,3 +38,7 @@ body {
 .button:hover {
   text-decoration: underline;
 }
+
+.custom-yellow-bg {
+  background-color: #FBB02D;
+}
