@@ -23,7 +23,7 @@ const Detalle = ({ producto, onClose }) => {
                 />
                 <h2 className="text-xl font-bold mb-2">{producto.nombre}</h2>
                 <p className="text-lg font-semibold mb-2">${producto.precio}</p>
-                <p className="text-lg font-semibold mb-2">${producto.modelo}</p>
+                <p className="text-lg font-semibold mb-2">{producto.nombreModelo}</p>
                 <p>{producto.descripcion}</p>
             </div>
         </div>

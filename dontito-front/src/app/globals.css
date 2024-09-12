@@ -3,26 +3,28 @@
 @tailwind utilities;
 
 
+html,
 body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
 
-  .font-serif {
-    font-family: 'Libre Bodoni', serif;
-  }
+
+.font-serif {
+  font-family: 'Libre Bodoni', serif;
+}
   
-  .font-poppins {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
 }
 
 .bg-custom {
   background-color: #333131;
 }
 
-/* styles/globals.css */
 .button {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -36,4 +38,3 @@ body {
 .button:hover {
   text-decoration: underline;
 }
-

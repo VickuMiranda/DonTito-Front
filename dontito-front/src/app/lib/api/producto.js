@@ -1,22 +1,3 @@
-// import 'server-only';
-
-// export async function getProducto( ) {
-
-//     const res = await fetch(`https://localhost:7183/api/Producto/api/v1/productos`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
-  
-//     if (!res.ok) {
-//       throw new Error('Failed to fetch adoptions');
-//     }
-//     return res.json();
-// }
-
-
-// En lugar de fetch, usa axios
 import axios from 'axios';
 
 export async function getProducto() {

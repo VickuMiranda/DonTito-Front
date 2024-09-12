@@ -1,9 +1,9 @@
-import Filtro from "./components/filtro";
+import Productos from "./components/productos";
 
 export default function Page(){
     return(
       <>
-        <Filtro/>
+        <Productos/>
       </>
     );
   }
