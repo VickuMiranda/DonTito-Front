@@ -22,7 +22,7 @@ const Navbar = () => {
     };
 
     const handleNavigateToCart = () => {
-        router.push('#mi-carrito');
+        router.push('/carrito');
     };
 
     return (

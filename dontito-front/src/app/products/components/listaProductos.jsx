@@ -1,17 +1,18 @@
 'use client';
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import { getProductoList } from "../action";
-import Detalle from "../detalle";
+
 
 const ListaProductos = ({ searchTerm }) => {
     const [productos, setProductos] = useState([]); 
     const [allProductos, setAllProductos] = useState([]); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState(null);
     const [page, setPage] = useState(1);  
     const [hasMore, setHasMore] = useState(true);  
 
+    const router = useRouter();
     const pageSize = 12;  
 
     useEffect(() => {
@@ -64,12 +65,8 @@ const ListaProductos = ({ searchTerm }) => {
         setHasMore(endIndex < allProductos.length);
     };
 
-    const handleProductClick = (producto) => {
-        setSelectedProduct(producto);
-    };
-
-    const handleCloseDetalle = () => {
-        setSelectedProduct(null);
+    const handleProductClick = (id) => {
+        router.push(`/products/detalle/${id}`);
     };
 
     if (loading) return <p>Cargando productos...</p>;
@@ -83,7 +80,7 @@ const ListaProductos = ({ searchTerm }) => {
                         <div
                             key={producto.id}
                             className="producto-card border rounded-lg p-4 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
-                            onClick={() => handleProductClick(producto)}
+                            onClick={() => handleProductClick(producto.id)}
                         >
                             <img
                                 width={200}
@@ -115,8 +112,6 @@ const ListaProductos = ({ searchTerm }) => {
                     </button>
                 </div>
             )}
-
-            <Detalle producto={selectedProduct} onClose={handleCloseDetalle} />
         </div>
     );
 };

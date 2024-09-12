@@ -11,3 +11,15 @@ export async function getProducto() {
         throw error;
     }
 }
+
+export async function getProductoById(id) {
+    try {
+        const response = await axios.get(`https://localhost:7183/api/Producto/api/v1/producto/${id}`, {
+            httpsAgent: new (require('https')).Agent({ rejectUnauthorized: false })
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw error;
+    }
+}
