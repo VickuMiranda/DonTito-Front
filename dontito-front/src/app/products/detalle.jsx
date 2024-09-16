@@ -1,70 +1,5 @@
-// 'use client';
-// import React, { useEffect, useState } from 'react';
-// import { useRouter } from 'next/navigation';
-// import { getProductoId } from './action'; 
-
-// const Detalle = ({ id }) => {
-//     const router = useRouter();
-//     const [producto, setProducto] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-
-//     useEffect(() => {
-//         if (id) {
-//             const fetchProducto = async () => {
-//                 try {
-//                     const data = await getProductoId(id);
-//                     setProducto(data);
-//                 } catch (err) {
-//                     setError('Error al obtener los detalles del producto.');
-//                 } finally {
-//                     setLoading(false);
-//                 }
-//             };
-
-//             fetchProducto();
-//         }
-//     }, [id]);
-
-//     if (loading) return <p>Cargando detalles...</p>;
-//     if (error) return <p>{error}</p>;
-//     if (!producto) return <p>Producto no encontrado.</p>;
-
-//     return (
-//         <div className="p-4 max-w-2xl mx-auto">
-//             <button
-//                 onClick={() => router.back()}
-//                 className="bg-black text-white py-2 px-4 rounded-full mb-4"
-//             >
-//                 Volver
-//             </button>
-//             <div className="bg-white rounded-lg shadow-lg p-4">
-//                 <img
-//                     src={`data:image/jpeg;base64,${producto.imagen}`}
-//                     alt={producto.nombre}
-//                     className="w-full h-80 object-cover rounded-md mb-4"
-//                 />
-//                 <h2 className="text-2xl font-bold mb-2">{producto.nombre}</h2>
-//                 <p className="text-lg font-semibold mb-2">${producto.precio}</p>
-//                 <p className="text-lg font-semibold mb-2">{producto.nombreModelo}</p>
-//                 <p>{producto.descripcion}</p>
-//                 <button className="bg-black text-white py-2 px-4 rounded-full mt-4">
-//                     Agregar al Carrito
-//                 </button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Detalle;
-
-
-
-
-
-
 'use client';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getProductoId } from './action';
 import '../globals.css';
@@ -77,6 +12,7 @@ const Detalle = ({ id }) => {
     const [error, setError] = useState(null);
     const [cantidad, setCantidad] = useState(1);
     const [marca, setMarca] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
 
     useEffect(() => {
         const fetchProductoYMarca = async () => {
@@ -103,13 +39,28 @@ const Detalle = ({ id }) => {
     if (!producto) return <p>Producto no encontrado.</p>;
 
     const handleAddToCart = () => {
-        console.log(`Añadido al carrito: ${producto.nombre}, Cantidad: ${cantidad}`);
+        let cart = JSON.parse(sessionStorage.getItem('cart')) || []; // Recuperar carrito existente
+    
+        // Verificar si el producto ya está en el carrito
+        const existingProductIndex = cart.findIndex(item => item.id === producto.id);
+    
+        if (existingProductIndex > -1) {
+            // Si el producto ya está, sobrescribir la cantidad con 1
+            cart[existingProductIndex].cantidad = 1;
+        } else {
+            // Si no está, agregar el nuevo producto con cantidad 1
+            cart.push({ ...producto, cantidad: 1 });
+        }
+    
+        // Guardar el carrito actualizado en sessionStorage
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        setShowNotification(true);
+        setTimeout(() => {
+            setShowNotification(false);
+        }, 3000);
     };
 
 
-    const handleQuantityChange = (amount) => {
-        setCantidad((prevCantidad) => Math.max(1, prevCantidad + amount));
-    };
 
     return (
         <div className="container mx-auto p-6">
@@ -135,24 +86,16 @@ const Detalle = ({ id }) => {
 
                     <div className="flex items-center space-x-4 mt-4">
                         <button 
-                            className="border rounded-full px-3 py-1"
-                            onClick={() => handleQuantityChange(-1)}
-                        >
-                            -
-                        </button>
-                        <span className="text-xl">{cantidad}</span>
-                        <button 
-                            className="border rounded-full px-3 py-1"
-                            onClick={() => handleQuantityChange(1)}
-                        >
-                            +
-                        </button>
-                        <button 
                             className="custom-yellow-bg text-white py-2 px-4 rounded-full ml-4 hover:bg-yellow-600 transition-colors duration-300"
                             onClick={handleAddToCart}
                         >
                             AÑADIR AL CARRITO
                         </button>
+                        {showNotification && (
+                            <div className="fixed right-10 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50">
+                                ¡Producto añadido al carrito!
+                            </div>
+                        )}
                     </div>
                     <div className="border-t mt-4 pt-4">
                         <h3 className="text-lg font-semibold mb-2">Descripción</h3>
