@@ -5,13 +5,14 @@ import { useRouter } from 'next/navigation';
 import { login } from "../action"; 
 import Link from 'next/link';
 
+
 const LoginForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const router = useRouter();
 
     const handleLogin = async (data) => {
         await login(data);
-        router.push('/products'); // Corrige el nombre de la ruta si es necesario
+        router.push('./products'); 
     }
 
     return (

@@ -13,6 +13,6 @@ export async function loginAPI(data){
         throw new Error('Failed to fetch data')
     }
 
-    return res.json()
+    return "Bearer " + res.json()
 }
 

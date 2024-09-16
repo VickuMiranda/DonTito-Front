@@ -73,47 +73,49 @@ const ListaProductos = ({ searchTerm }) => {
     if (error) return <p>{error}</p>;
 
     return (
-        <div className="producto-list">
-            {productos.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {productos.map((producto) => (
-                        <div
-                            key={producto.id}
-                            className="producto-card border rounded-lg p-4 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
-                            onClick={() => handleProductClick(producto.id)}
-                        >
-                            <img
-                                width={200}
-                                height={300}
-                                src={`data:image/jpeg;base64,${producto.imagen}`}
-                                alt={producto.nombre}
-                                className="w-full h-48 object-cover rounded-md"
-                            />
-                            <div className="border-t border-gray-300 mt-4 pt-4">
-                                <div className="flex items-center justify-between">
-                                    <h2 className="text-xl font-bold mt-2">{producto.nombre}</h2>
-                                    <p className="text-lg font-semibold mt-2">${producto.precio}</p>
+        <div className="min-h-screen flex flex-col"> {/* Clase para ocupar toda la pantalla */}
+            <div className="flex-grow producto-list"> {/* Flex-grow para que el contenido crezca y ocupe el espacio restante */}
+                {productos.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {productos.map((producto) => (
+                            <div
+                                key={producto.id}
+                                className="producto-card border rounded-lg p-4 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
+                                onClick={() => handleProductClick(producto.id)}
+                            >
+                                <img
+                                    width={200}
+                                    height={300}
+                                    src={`data:image/jpeg;base64,${producto.imagen}`}
+                                    alt={producto.nombre}
+                                    className="w-full h-48 object-cover rounded-md"
+                                />
+                                <div className="border-t border-gray-300 mt-4 pt-4">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-xl font-bold mt-2">{producto.nombre}</h2>
+                                        <p className="text-lg font-semibold mt-2">${producto.precio}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <p>No hay productos disponibles</p>
-            )}
-
-            {hasMore && (
-                <div className="flex justify-center mt-4">
-                    <button
-                        onClick={loadMoreProducts}
-                        className="text-black bg-transparent text-lg font-semibold border-b-2 border-black pb-1"
-                    >
-                        Ver más
-                    </button>
-                </div>
-            )}
+                        ))}
+                    </div>
+                ) : (
+                    <p>No hay productos disponibles</p>
+                )}
+                {hasMore && (
+                    <div className="flex justify-center mt-4">
+                        <button
+                            onClick={loadMoreProducts}
+                            className="text-black bg-transparent text-lg font-semibold border-b-2 border-black pb-1"
+                        >
+                            Ver más
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
     );
+    
 };
 
 export default ListaProductos;
