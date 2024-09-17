@@ -30,11 +30,8 @@ export async function loginAPI(data) {
                 'Content-Type': 'application/json'
             }
         });
-
         // Extrae el token del resultado
         const result = res.data;
-        console.log(result);
-        
         // Ajusta la concatenación según el formato de respuesta. Asumiendo que `result` es un objeto que contiene un campo `accessToken`.
         return "Bearer " + (result.accessToken || result.token || ''); 
 
