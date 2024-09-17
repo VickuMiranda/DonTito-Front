@@ -44,7 +44,6 @@ export async function logout() {
 // SetSessionToken: guarda el token en la sesión
 export async function setSessionToken(data) {
   const res = await loginAPI(data);  // Llama a la API de login
-  console.log(res.token)
   const session = await getSession();  // Obtiene la sesión actual
   session.token = res.token || res.accessToken;  // Ajusta según la respuesta de loginAPI
   await session.save();  // Guarda la sesión

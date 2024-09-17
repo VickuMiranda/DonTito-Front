@@ -56,7 +56,7 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-
+import Image from 'next/image';
 const ShoppingCart = () => {
     const [cart, setCart] = useState([]);
     const [email, setEmail] = useState('');
@@ -124,7 +124,9 @@ const ShoppingCart = () => {
                                 </button>
                                 
                                 <div className="flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
-                                    <img src={`data:image/jpeg;base64,${producto.imagen}`}
+                                    <Image src={`data:image/jpeg;base64,${producto.imagen}`}
+                                    width={200}
+                                    height={300}
                                     alt={producto.nombre} 
                                     className="w-full h-full object-cover"
                                     />
