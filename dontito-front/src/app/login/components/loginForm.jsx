@@ -10,9 +10,19 @@ const LoginForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const router = useRouter();
 
+    // const handleLogin = async (data) => {
+    //     await login(data);
+    //     router.push('./products'); 
+    // }
     const handleLogin = async (data) => {
-        await login(data);
-        router.push('./products'); 
+        try {
+            console.log(data)
+            await login(data);
+            router.push('./products');  // Asegúrate de que la ruta sea correcta
+        } catch (error) {
+            console.error("Login failed:", error);
+            // Aquí puedes mostrar un mensaje de error en la UI
+        }
     }
 
     return (
