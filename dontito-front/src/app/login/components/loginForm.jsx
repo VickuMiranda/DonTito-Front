@@ -11,13 +11,17 @@ const LoginForm = () => {
     const router = useRouter();
 
     const handleLogin = async (data) => {
-        console.log(data)
-        await login(data);
-        router.push('./products'); 
+        try {
+            await login(data);
+            router.push('./products');  // Asegúrate de que la ruta sea correcta
+        } catch (error) {
+            console.error("Login failed:", error);
+            // Aquí puedes mostrar un mensaje de error en la UI
+        }
     }
 
     return (
-        <div className="flex items-center justify-center h-screen bg-cover bg-center" style={{ backgroundImage: 'url(/images/your-background-image.jpg)' }}>
+        <div className="flex items-center justify-center h-screen bg-cover bg-center" style={{ backgroundImage: 'url(/images/Tractor.png)' }}>
             <section className="bg-white p-8 rounded-3xl shadow-lg w-full max-w-md mx-auto min-h-[40vh]">
                 <div className="font-serif text-center text-3xl text-black mb-2">
                     FELIX. A <br />MANSO

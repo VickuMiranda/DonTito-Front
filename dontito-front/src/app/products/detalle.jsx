@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { getProductoId } from './action';
 import '../globals.css';
 import { getNombreMarca } from './action';
-
+import Image from 'next/image';
 const Detalle = ({ id }) => {
     const router = useRouter();
     const [producto, setProducto] = useState(null);
@@ -69,9 +69,11 @@ const Detalle = ({ id }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <img
+                    <Image
                         src={`data:image/jpeg;base64,${producto.imagen}`}
                         alt={producto.nombre}
+                        width={200}
+                        height={300}
                         className="w-full h-auto object-cover rounded-lg shadow-md"
                     />
                 </div>

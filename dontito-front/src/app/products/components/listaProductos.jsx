@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { getProductoList } from "../action";
+import Image from "next/image";
 
 
 const ListaProductos = ({ searchTerm }) => {
@@ -83,7 +84,7 @@ const ListaProductos = ({ searchTerm }) => {
                                 className="producto-card border rounded-lg p-4 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
                                 onClick={() => handleProductClick(producto.id)}
                             >
-                                <img
+                                <Image
                                     width={200}
                                     height={300}
                                     src={`data:image/jpeg;base64,${producto.imagen}`}
@@ -113,7 +114,7 @@ const ListaProductos = ({ searchTerm }) => {
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     );
     
 };
