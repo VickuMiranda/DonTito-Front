@@ -10,7 +10,7 @@ const Productos = () => {
     };
 
     return (
-        <div className="flex min-h-screen"> {/* Cambiar h-screen a min-h-screen */}
+        <div className="flex min-h-screen"> 
             <aside className="w-64 bg-gray-100 p-4 border-r border-gray-300">
                 <h2 className="text-xl text-center font-semibold mb-4">Filtros</h2>
                 <div>
@@ -24,7 +24,7 @@ const Productos = () => {
                     />
                 </div>
             </aside> 
-            <main className="flex-1 p-4 flex-grow"> {/* Añadir flex-grow */}
+            <main className="flex-1 p-4 flex-grow"> 
                 <h1 className="text-2xl font-bold mb-4">Productos</h1>
                 <ListaProductos searchTerm={searchTerm} />
             </main>

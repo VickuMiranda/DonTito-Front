@@ -1,61 +1,6 @@
-// 'use client';
-// import { useState, useEffect } from 'react';
-
-// const ShoppingCart = () => {
-//     const [cart, setCart] = useState([]);
-
-//     // Obtener el carrito al cargar el componente
-//     useEffect(() => {
-//         const savedCart = JSON.parse(sessionStorage.getItem('cart')) || [];
-//         setCart(savedCart);
-//     }, []);
-
-//     // Agregar producto al carrito
-//     const handleAddToCart = (producto) => {
-//         let currentCart = JSON.parse(sessionStorage.getItem('cart')) || [];
-//         const existingProductIndex = currentCart.findIndex(p => p.id === producto.id);
-        
-//         if (existingProductIndex > -1) {
-//             currentCart[existingProductIndex].cantidad += 1;
-//         } else {
-//             producto.quantity = 1;
-//             currentCart.push(producto);
-//         }
-        
-//         sessionStorage.setItem('cart', JSON.stringify(currentCart));
-//         setCart(currentCart); // Actualizar estado local
-//     };
-
-//     // Mostrar carrito
-//     return (
-//         <div>
-//             <h1>Carrito de Compras</h1>
-//             <ul>
-//                 {cart.map((producto, index) => (
-//                     <li key={index}>
-//                         {producto.nombre} - Cantidad: {producto.cantidad}
-//                     </li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// };
-
-// export default ShoppingCart;
-
-
-
-
-
-
-
-
-
-
-
-
 'use client';
 import { useState, useEffect } from 'react';
+import { postPedido } from '../lib/api/pedido';
 
 const ShoppingCart = () => {
     const [cart, setCart] = useState([]);
@@ -63,35 +8,31 @@ const ShoppingCart = () => {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
 
-    // Obtener el carrito al cargar el componente
     useEffect(() => {
         const savedCart = JSON.parse(sessionStorage.getItem('cart')) || [];
         setCart(savedCart);
     }, []);
 
-    // Calcular el total
+
     const calculateTotal = () => {
         return cart.reduce((total, producto) => total + producto.precio * producto.cantidad, 0).toFixed(2);
     };
 
-    // Manejar el cambio de cantidad de un producto
     const handleQuantityChange = (index, amount) => {
         const updatedCart = [...cart];
         if (updatedCart[index].cantidad + amount > 0) {
             updatedCart[index].cantidad += amount;
         }
         setCart(updatedCart);
-        sessionStorage.setItem('cart', JSON.stringify(updatedCart));  // Actualizar el sessionStorage
+        sessionStorage.setItem('cart', JSON.stringify(updatedCart));  
     };
 
-    // Eliminar un producto del carrito
     const handleRemoveProduct = (index) => {
         const updatedCart = cart.filter((_, i) => i !== index);
         setCart(updatedCart);
-        sessionStorage.setItem('cart', JSON.stringify(updatedCart));  // Actualizar el sessionStorage
+        sessionStorage.setItem('cart', JSON.stringify(updatedCart)); 
     };
 
-    // Manejar el cambio en el input del email
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
@@ -104,18 +45,29 @@ const ShoppingCart = () => {
         setApellido(e.target.value);
     };
 
+    const handleCreatePedido = async () => {
+        try {
+            const response = await postPedido();  
+            if (response) {
+                alert('Pedido creado con éxito');
+                sessionStorage.removeItem('cart');
+                setCart([]);
+            }
+        } catch (error) {
+            alert('Hubo un error al crear el pedido. Inténtalo nuevamente.');
+        }
+    };
+    
 
     return (
         <div className="p-4">
             <h1 className="text-3xl font-bold mb-6 text-gray-800">MI CARRITO</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Lista de productos */}
                 <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
                     <h2 className="text-2xl font-bold mb-4 text-gray-800">Carrito de Compras</h2>
                     {cart.length > 0 ? (
                         cart.map((producto, index) => (
                             <div key={index} className="relative mb-4 p-4 border border-gray-300 rounded-lg shadow-sm bg-gray-50 flex items-center">
-                                {/* Botón para eliminar */}
                                 <button
                                     onClick={() => handleRemoveProduct(index)}
                                     className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
@@ -166,7 +118,7 @@ const ShoppingCart = () => {
                     <div className="mb-4 text-xl font-semibold text-gray-900">
                         <span className="font-medium">Total:</span> ${calculateTotal()}
                     </div>
-                    <div className="mb-4 flex space-x-4"> {/* Flex container para alinear Nombre y Apellido */}
+                    <div className="mb-4 flex space-x-4"> 
                         <div className="w-1/2">
                             <label htmlFor="nombre" className="block text-sm font-medium mb-2 text-gray-700">Nombre</label>
                             <input
@@ -203,7 +155,7 @@ const ShoppingCart = () => {
                     </div>
                     <button
                         className="custom-yellow-bg text-white py-2 px-4 rounded-full hover:bg-yellow-600 transition-colors duration-300 mt-4"
-                        onClick={() => alert(`Compra realizada para: ${email}`)}
+                        onClick={handleCreatePedido}
                     >
                         Confirmar Compra
                     </button>

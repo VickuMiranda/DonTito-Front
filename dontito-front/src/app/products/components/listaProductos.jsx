@@ -73,8 +73,8 @@ const ListaProductos = ({ searchTerm }) => {
     if (error) return <p>{error}</p>;
 
     return (
-        <div className="min-h-screen flex flex-col"> {/* Clase para ocupar toda la pantalla */}
-            <div className="flex-grow producto-list"> {/* Flex-grow para que el contenido crezca y ocupe el espacio restante */}
+        <div className="min-h-screen flex flex-col"> 
+            <div className="flex-grow producto-list"> 
                 {productos.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {productos.map((producto) => (

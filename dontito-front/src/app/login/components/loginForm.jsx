@@ -11,6 +11,7 @@ const LoginForm = () => {
     const router = useRouter();
 
     const handleLogin = async (data) => {
+        console.log(data)
         await login(data);
         router.push('./products'); 
     }
