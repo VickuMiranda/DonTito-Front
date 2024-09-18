@@ -39,7 +39,6 @@ const ShoppingCart = () => {
         sessionStorage.setItem('cart', JSON.stringify(updatedCart)); 
     };
 
-
     const handleCreatePedido = async () => {
         let valid = true;
 
