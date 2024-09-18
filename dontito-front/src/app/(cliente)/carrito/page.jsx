@@ -71,27 +71,33 @@ const ShoppingCart = () => {
         const total = calculateTotal();
 
     try {
-        // Crear el pedido y obtener el ID del pedido
         const pedidoResponse = await postPedido(total);  
-        console.log('Pedido creado:', pedidoResponse); // Verificar la respuesta
+        console.log('Pedido creado:', pedidoResponse); 
 
         const pedidoId = pedidoResponse.id;
 
-        // Verificar el contenido del carrito
+        
         console.log('Contenido del carrito:', cart);
 
-        // Crear los detalles del pedido
+        
         for (const producto of cart) {
+            const subTot = Math.round(producto.precio * producto.cantidad);
             console.log('Enviando detalle del pedido:', producto.id, producto.cantidad, pedidoId, (producto.precio * producto.cantidad).toFixed(2));
-            await postPedidoDetalle(producto.cantidad, producto.id, pedidoId, (producto.precio * producto.cantidad).toFixed(2));
+            await postPedidoDetalle(producto.id, producto.cantidad, subTot, pedidoId); 
         }
 
         alert('Pedido creado con éxito');
         sessionStorage.removeItem('cart');
         setCart([]);
     } catch (error) {
-        console.error('Error en la creación del pedido:', error); // Mejor manejo del error
-        alert('Hubo un error al crear el pedido. Inténtalo nuevamente.');
+        if (error.response) {
+            console.error('Error en el detalle del pedido:', error.response.status, error.response.data);
+            alert(`Error ${error.response.status}: ${error.response.data}`);
+        } else {
+            console.error('Error en el detalle del pedido:', error.message);
+            alert(`Error: ${error.message}`);
+        }
+        throw error;
     }
 };
     

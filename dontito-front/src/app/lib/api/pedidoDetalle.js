@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-export async function postPedidoDetalle(cantidad, productoId, idPedido, subtotal) {
+export async function postPedidoDetalle(idProducto, cantidad, subTotal, idPedido) {
     try {
         const response = await axios.post('https://localhost:7183/api/PedidoDetalle/api/v1/agregar/pedidoDetalle', {
+            idProducto,
             cantidad,
-            productoId,
-            idPedido,
-            subtotal
+            subTotal,
+            idPedido
         }, {
             httpsAgent: new (require('https')).Agent({ rejectUnauthorized: false })
         });
