@@ -1,6 +1,6 @@
 'use server'
 
-import { setSessionToken } from "../lib/api/session" 
+import { setSessionToken } from "../../lib/api/session" 
 
 const ROOT_PATH = "/example"
 

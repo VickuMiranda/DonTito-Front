@@ -74,6 +74,7 @@ const ListaProductos = ({ searchTerm }) => {
     if (error) return <p>{error}</p>;
 
     return (
+        <section>
         <div className="min-h-screen flex flex-col"> 
             <div className="flex-grow producto-list"> 
                 {productos.length > 0 ? (
@@ -113,6 +114,7 @@ const ListaProductos = ({ searchTerm }) => {
                         </button>
                     </div>
                 )}
+            </div>
             </div>
         </section>
     );

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getProductoId } from './action';
-import '../globals.css';
+import '../../globals.css';
 import { getNombreMarca } from './action';
 import Image from 'next/image';
 const Detalle = ({ id }) => {

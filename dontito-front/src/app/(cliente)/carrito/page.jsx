@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { postPedido } from '../lib/api/pedido';
+import { postPedido } from '../../lib/api/pedido';
+import { postPedidoDetalle } from '@/app/lib/api/pedidoDetalle';
 
 import Image from 'next/image';
 const ShoppingCart = () => {
@@ -8,6 +9,10 @@ const ShoppingCart = () => {
     const [email, setEmail] = useState('');
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
+    const [errorNombre, setErrorNombre] = useState('');
+    const [errorApellido, setErrorApellido] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
+    const [errorCart, setErrorCart] = useState('');
 
     useEffect(() => {
         const savedCart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -34,30 +39,61 @@ const ShoppingCart = () => {
         sessionStorage.setItem('cart', JSON.stringify(updatedCart)); 
     };
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handleNombreChange = (e) => {
-        setNombre(e.target.value);
-    };
-
-    const handleApellidoChange = (e) => {
-        setApellido(e.target.value);
-    };
 
     const handleCreatePedido = async () => {
-        try {
-            const response = await postPedido();  
-            if (response) {
-                alert('Pedido creado con éxito');
-                sessionStorage.removeItem('cart');
-                setCart([]);
-            }
-        } catch (error) {
-            alert('Hubo un error al crear el pedido. Inténtalo nuevamente.');
+        let valid = true;
+
+        setErrorNombre('');
+        setErrorApellido('');
+        setErrorEmail('');
+        setErrorCart('');
+
+        if (cart.length === 0) {
+            setErrorCart('El carrito está vacío. No puedes confirmar la compra sin productos.');
+            valid = false;
         }
-    };
+
+        if (!nombre) {
+            setErrorNombre('Por favor, ingrese su nombre.');
+            valid = false;
+        }
+        if (!apellido) {
+            setErrorApellido('Por favor, ingrese su apellido.');
+            valid = false;
+        }
+        if (!email) {
+            setErrorEmail('Por favor, ingrese su correo electrónico.');
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        const total = calculateTotal();
+
+    try {
+        // Crear el pedido y obtener el ID del pedido
+        const pedidoResponse = await postPedido(total);  
+        console.log('Pedido creado:', pedidoResponse); // Verificar la respuesta
+
+        const pedidoId = pedidoResponse.id;
+
+        // Verificar el contenido del carrito
+        console.log('Contenido del carrito:', cart);
+
+        // Crear los detalles del pedido
+        for (const producto of cart) {
+            console.log('Enviando detalle del pedido:', producto.id, producto.cantidad, pedidoId, (producto.precio * producto.cantidad).toFixed(2));
+            await postPedidoDetalle(producto.cantidad, producto.id, pedidoId, (producto.precio * producto.cantidad).toFixed(2));
+        }
+
+        alert('Pedido creado con éxito');
+        sessionStorage.removeItem('cart');
+        setCart([]);
+    } catch (error) {
+        console.error('Error en la creación del pedido:', error); // Mejor manejo del error
+        alert('Hubo un error al crear el pedido. Inténtalo nuevamente.');
+    }
+};
     
 
     return (
@@ -115,6 +151,7 @@ const ShoppingCart = () => {
                     ) : (
                         <p className="text-gray-500">Tu carrito está vacío.</p>
                     )}
+                    {errorCart && <p className="text-red-500 text-sm mt-1">{errorCart}</p>}
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
                     <h2 className="text-lg font-bold mb-4 text-gray-800">Resumen de la Compra</h2>
@@ -128,10 +165,11 @@ const ShoppingCart = () => {
                                 id="nombre"
                                 type="text" 
                                 value={nombre}
-                                onChange={handleNombreChange}
-                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                onChange={(e) => setNombre(e.target.value)}
+                                className={`w-full p-2 border rounded-lg ${errorNombre ? 'border-red-500' : 'border-gray-300'}`}
                                 placeholder="Nombre"
                             />
+                            {errorNombre && <p className="text-red-500 text-sm mt-1">{errorNombre}</p>}
                         </div>
                         <div className="w-1/2">
                             <label htmlFor="apellido" className="block text-sm font-medium mb-2 text-gray-700">Apellido</label>
@@ -139,10 +177,11 @@ const ShoppingCart = () => {
                                 id="apellido"
                                 type="text" 
                                 value={apellido}
-                                onChange={handleApellidoChange}
-                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                onChange={(e) => setApellido(e.target.value)}
+                                className={`w-full p-2 border rounded-lg ${errorApellido ? 'border-red-500' : 'border-gray-300'}`}
                                 placeholder="Apellido"
                             />
+                            {errorApellido && <p className="text-red-500 text-sm mt-1">{errorApellido}</p>}
                         </div>
                     </div>
                     <div>
@@ -151,10 +190,11 @@ const ShoppingCart = () => {
                             id="email"
                             type="email"
                             value={email}
-                            onChange={handleEmailChange}
-                            className="w-full p-2 border border-gray-300 rounded-lg"
+                            onChange={(e) => setEmail(e.target.value)}
+                            className={`w-full p-2 border rounded-lg ${errorEmail ? 'border-red-500' : 'border-gray-300'}`}
                             placeholder="Introduce tu email"
                         />
+                        {errorEmail && <p className="text-red-500 text-sm mt-1">{errorEmail}</p>}
                     </div>
                     <button
                         className="custom-yellow-bg text-white py-2 px-4 rounded-full hover:bg-yellow-600 transition-colors duration-300 mt-4"
