@@ -11,8 +11,9 @@ export async function loginAPI(data) {
                 'Content-Type': 'application/json'
             }
         });
+        console.log(res.token)
         const result = res.data;
-        return "Bearer " + (result.accessToken || result.token || ''); 
+        return "Bearer " +  result.token ; 
 
     } catch (error) {
         console.error('Failed to fetch data:', error);

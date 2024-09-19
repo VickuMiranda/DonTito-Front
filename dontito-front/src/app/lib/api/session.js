@@ -17,6 +17,7 @@ export async function setSessionToken(data) {
   const session = await getSession();  // Obtiene la sesión actual
   session.token = res.token || res.accessToken;  // Ajusta según la respuesta de loginAPI
   await session.save();  // Guarda la sesión
+  return res;
 }
 
 // GetToken: obtiene el token de la sesión
