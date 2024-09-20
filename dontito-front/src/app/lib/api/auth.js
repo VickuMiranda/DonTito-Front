@@ -3,20 +3,21 @@ import 'server-only';
 
 export async function loginAPI(data) {
     try {
-        const res = await axios.post('https://localhost:7183/api/Login/Login', {
-            correo: data.email,
-            clave: data.password
-        }, {
+        console.log('Datos enviados:', data);
+        
+        // Realizar la solicitud con axios
+        const res = await axios.post('https://localhost:7183/api/Login/Login', data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         });
-        console.log(res.token)
-        const result = res.data;
-        return "Bearer " +  result.token ; 
 
+        
+
+        // Devolver el objeto completo de la API
+        return res.data;  // Devuelve el objeto completo, no solo el token
     } catch (error) {
-        console.error('Failed to fetch data:', error);
-        throw new Error('Failed to fetch data');
+        console.error("Error en el login:", error.response ? error.response.data : error.message);
+        throw error;  // Propaga el error para manejarlo en el cliente
     }
 }

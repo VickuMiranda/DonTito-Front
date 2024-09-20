@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
 import axios from "axios";
+import { login } from "../action";
 
 const LoginForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -11,7 +12,7 @@ const LoginForm = () => {
     const onSubmit = async (data) => {
         try {
             console.log('Datos enviados:', data);
-
+            
             // Realizar la solicitud con axios
             const res = await axios.post('https://localhost:7183/api/Login/Login', data, {
                 headers: {
@@ -34,6 +35,32 @@ const LoginForm = () => {
         }
     };
 
+    const Logearse = async (data) => {
+        try {
+            console.log(data);
+    
+            // Hacer la llamada a la API para el login y obtener el objeto completo
+            const response = await login(data);
+    
+            // Acceder al token y guardarlo en localStorage
+            if (response && response.token) {
+                localStorage.setItem('token', `Bearer ${response.token}`);
+                router.push('./productos');  // Redirigir después del login exitoso
+
+            } else {
+                console.error('La respuesta de la API no contiene token');
+            }
+    
+            
+            console.log('Datos adicionales:', response);  
+        } catch (error) {
+            console.error("Error en el login:", error.response ? error.response.data : error.message);
+        }
+    };
+    
+    
+            
+    
     return (
         <div className="flex items-center justify-center h-screen bg-cover bg-center" style={{ backgroundImage: 'url(/images/Tractor.png)' }}>
             <section className="bg-white p-8 rounded-3xl shadow-lg w-full max-w-md mx-auto min-h-[40vh]">
@@ -42,7 +69,7 @@ const LoginForm = () => {
                 </div>
                 <h2 className="text-2xl font-semibold mb-6 text-gray-800">Iniciar Sesión</h2>
                 <form
-                    onSubmit={handleSubmit(onSubmit)} // Usar el handleSubmit de react-hook-form
+                    onSubmit={handleSubmit(Logearse)} // Usar el handleSubmit de react-hook-form
                     className="flex flex-col space-y-4"
                 >
                     <div className="mb-2">

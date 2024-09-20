@@ -9,16 +9,14 @@ const Navbar = () => {
         router.push('/productos');
     };
 
-    const handleLogout = async () => {
-        try {
-            await logout();  // Llama a la función de cierre de sesión
-            router.push('/login');  // Redirige al usuario a la página de inicio de sesión
-        } catch (error) {
-            console.error('Logout failed:', error);
-            // Maneja el error según sea necesario
-        }
-    };
+    
+    const cerrarSesion = () => {
+        // Eliminar el token de localStorage
+        localStorage.removeItem('token');
 
+        // Redirigir al usuario a la página de inicio de sesión (o cualquier otra página)
+        router.push('./login');  
+    };
 
     return (
         <nav className="bg-gray-200 text-white px-4 py-2 flex justify-between items-center border-gray-700">
@@ -29,7 +27,7 @@ const Navbar = () => {
                 <button onClick={handleNavigateToProducts} className="button">
                     Productos
                 </button>
-                <button onClick={handleLogout} className="button">
+                <button onClick={cerrarSesion} className="button">
                     Cerrar Sesión 
                 </button>
             </div>
