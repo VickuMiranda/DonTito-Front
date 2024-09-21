@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import Detalle from '../detalle';
+import Editar from '../editar';
 
 export default function  Page({ params })  {
     const { id } = params;
 
-    return <Detalle id={id} />;
+    return <Editar id={id} />;
 };
 
 

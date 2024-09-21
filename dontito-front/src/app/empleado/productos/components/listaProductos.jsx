@@ -1,9 +1,8 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
-import { getProductoList } from "../action";
+import { EliminarProducto, getProductoList } from "../action";
 import Image from "next/image";
-
 
 const ListaProductos = ({ searchTerm }) => {
     const [productos, setProductos] = useState([]); 
@@ -66,8 +65,13 @@ const ListaProductos = ({ searchTerm }) => {
         setHasMore(endIndex < allProductos.length);
     };
 
-    const handleProductClick = (id) => {
-        router.push(`/products/${id}`);
+    const handleEditProduct = (id) => {
+        router.push(`/empleado/productos/${id}`);
+    };
+
+    const handleDeleteProduct = async (id) => {
+        await EliminarProducto(id)
+        router.push('/empleado/productos');
     };
 
     if (loading) return <p>Cargando productos...</p>;
@@ -75,50 +79,63 @@ const ListaProductos = ({ searchTerm }) => {
 
     return (
         <section>
-        <div className="min-h-screen flex flex-col"> 
-            <div className="flex-grow producto-list"> 
-                {productos.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {productos.map((producto) => (
-                            <div
-                                key={producto.id}
-                                className="producto-card border rounded-lg p-4 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
-                                onClick={() => handleProductClick(producto.id)}
-                            >
-                                <Image
-                                    width={200}
-                                    height={300}
-                                    src={`data:image/jpeg;base64,${producto.imagen}`}
-                                    alt={producto.nombre}
-                                    className="w-full h-48 object-cover rounded-md"
-                                />
-                                <div className="border-t border-gray-300 mt-4 pt-4">
-                                    <div className="flex items-center justify-between">
-                                        <h2 className="text-xl font-bold mt-2">{producto.nombre}</h2>
-                                        <p className="text-lg font-semibold mt-2">${producto.precio}</p>
+            <div className="min-h-screen flex flex-col"> 
+                <div className="flex-grow producto-list"> 
+                    {productos.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {productos.map((producto) => (
+                                <div
+                                    key={producto.id}
+                                    className="producto-card border rounded-lg p-4 transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
+                                >
+                                    <Image
+                                        width={200}
+                                        height={300}
+                                        src={`data:image/jpeg;base64,${producto.imagen}`}
+                                        alt={producto.nombre}
+                                        className="w-full h-48 object-cover rounded-md"
+                                    />
+                                    <div className="border-t border-gray-300 mt-4 pt-4">
+                                        <div className="flex items-center justify-between">
+                                            <h2 className="text-xl font-bold mt-2">{producto.nombre}</h2>
+                                            <p className="text-lg font-semibold mt-2">${producto.precio}</p>
+                                        </div>
+                                        <div className="mt-4 flex justify-between">
+                                            <button
+                                                onClick={() => handleEditProduct(producto.id)}
+                                                className="bg-blue-500 text-white py-2 px-4 rounded-full transition-colors duration-300 hover:bg-blue-600"
+                                            >
+                                                Editar
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteProduct(producto.id)}
+                                                className="bg-red-500 text-white py-2 px-4 rounded-full transition-colors duration-300 hover:bg-red-600"
+                                            >
+                                                Eliminar
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p>No hay productos disponibles</p>
-                )}
-                {hasMore && (
-                    <div className="flex justify-center mt-4">
-                        <button
-                            onClick={loadMoreProducts}
-                            className="text-black bg-transparent text-lg font-semibold border-b-2 border-black pb-1"
-                        >
-                            Ver más
-                        </button>
-                    </div>
-                )}
-            </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>No hay productos disponibles</p>
+                    )}
+                    {hasMore && (
+                        <div className="flex justify-center mt-4">
+                            <button
+                                onClick={loadMoreProducts}
+                                className="text-black bg-transparent text-lg font-semibold border-b-2 border-black pb-1"
+                            >
+                                Ver más
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         </section>
     );
-    
 };
 
 export default ListaProductos;
+

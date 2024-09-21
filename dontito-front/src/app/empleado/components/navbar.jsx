@@ -6,7 +6,11 @@ const Navbar = () => {
     const router = useRouter();
 
     const handleNavigateToProducts = () => {
-        router.push('/productos');
+        router.push('/empleado/productos');
+    };
+
+    const handleCrearProducto = () => {
+        router.push('/empleado/crearProducto');
     };
 
     const handleLogout = async () => {
@@ -26,6 +30,9 @@ const Navbar = () => {
                 FELIX. A <br />MANSO
             </div>
             <div className="flex space-x-6 text-black font-semibold">
+            <button onClick={handleCrearProducto} className="button">
+                    Crear Producto
+                </button>
                 <button onClick={handleNavigateToProducts} className="button">
                     Productos
                 </button>
