@@ -11,24 +11,42 @@ export async function logout() {
   }
 }
 
+
+
 // SetSessionToken: guarda el token en la sesión
 export async function setSessionToken(data) {
   const res = await loginAPI(data);  // Llama a la API de login
   const session = await getSession();  // Obtiene la sesión actual
   session.token = res.token || res.accessToken;  // Ajusta según la respuesta de loginAPI
+  
   await session.save();  // Guarda la sesión
-  return res;
+  return res;  // Devuelve la respuesta completa
 }
 
-// GetToken: obtiene el token de la sesión
-export async function getToken() {
-  const session = await getSession();
-  return session.token;  // Devuelve el token de la sesión
+
+
+
+export async function getServerSideProps(context) {
+  const token = await loginAPI();
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: './login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},  // Pasar props si es necesario
+  };
 }
+
 
 // GetSession: obtiene la sesión actual
 export async function getSession() {
-  return await getIronSession(
+  return await getSession(
     cookies(),  // Accede a las cookies
     {
       password: process.env.SESSION_SECRET,  // Usa la contraseña almacenada en variables de entorno
