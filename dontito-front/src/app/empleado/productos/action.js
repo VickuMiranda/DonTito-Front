@@ -1,12 +1,8 @@
 'use server';
 
-import { getProducto } from "@/app/lib/api/producto";
-import { getProductoById } from "@/app/lib/api/producto";
-import { getMarcaXModelo } from "@/app/lib/api/modelo";
-import { postProducto } from "@/app/lib/api/producto";
-import { putProducto } from "@/app/lib/api/producto";
-import { deleteProducto } from "@/app/lib/api/producto";
-import { getMarca } from "@/app/lib/api/marca"; 
+import { getProducto, getProductoById, postProducto, putProducto, deleteProducto } from "@/app/lib/api/producto";
+import { getModeloXNombre, getMarcaXModelo, postModelo } from "@/app/lib/api/modelo";
+import { getMarca } from "@/app/lib/api/marca";
 
 export async function getProductoList() {
     return await getProducto(); 
@@ -34,4 +30,12 @@ export async function EliminarProducto(id) {
 
 export async function getMarcas() {
     return await getMarca();
+}
+
+export async function crearModelo(data) {
+    return await postModelo(data);
+}
+
+export async function getModeloNombre(data) {
+    return await getModeloXNombre(data);
 }
