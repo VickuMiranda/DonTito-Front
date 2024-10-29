@@ -1,9 +1,21 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListaProductos from "./listaProductos";
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie'; // Asegúrate de tener js-cookie instalado
 
 const Productos = () => {
     const [searchTerm, setSearchTerm] = useState(''); 
+    const router = useRouter();
+
+    useEffect(() => {
+        const token = Cookies.get("auth_token"); // Obtener el token de las cookies
+
+        if (!token) {
+            // Si no hay token, redirigir al usuario a la página de inicio de sesión
+            router.push('/empleado/login');
+        }
+    }, [router]);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value); 

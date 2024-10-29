@@ -9,32 +9,6 @@ const LoginForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const router = useRouter();
 
-    const onSubmit = async (data) => {
-        try {
-            console.log('Datos enviados:', data);
-            
-            // Realizar la solicitud con axios
-            const res = await axios.post('https://localhost:7183/api/Login/Login', data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            console.log('Respuesta del servidor:', res.data);
-
-            // Redirigir si el login es exitoso
-            if (res.data.token) {
-                // Guardar el token en localStorage
-                localStorage.setItem('token', `Bearer ${res.data.token}`);
-                router.push('./productos');  // Asegúrate de que la ruta sea correcta
-            }
-
-        } catch (error) {
-            console.error("Error en el login:", error.response ? error.response.data : error.message);
-            // Aquí puedes manejar el mensaje de error y mostrarlo en la UI
-        }
-    };
-
     const Logearse = async (data) => {
         try {
             console.log(data);
@@ -44,7 +18,7 @@ const LoginForm = () => {
     
             // Acceder al token y guardarlo en localStorage
             if (response && response.token) {
-                localStorage.setItem('token', `Bearer ${response.token}`);
+                //localStorage.setItem('token', `Bearer ${response.token}`);
                 router.push('./productos');  // Redirigir después del login exitoso
 
             } else {
@@ -57,9 +31,6 @@ const LoginForm = () => {
             console.error("Error en el login:", error.response ? error.response.data : error.message);
         }
     };
-    
-    
-            
     
     return (
         <div className="flex items-center justify-center h-screen bg-cover bg-center" style={{ backgroundImage: 'url(/images/Tractor.png)' }}>

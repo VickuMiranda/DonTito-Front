@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import '../../globals.css';
+import Cookies from 'js-cookie'; // Importa js-cookie
 
 const Navbar = () => {
     const router = useRouter();
@@ -9,10 +10,12 @@ const Navbar = () => {
         router.push('/productos');
     };
 
-    
     const cerrarSesion = () => {
         // Eliminar el token de localStorage
         localStorage.removeItem('token');
+
+        // Eliminar el token de las cookies
+        Cookies.remove("auth_token", { path: "/" }); // Elimina la cookie
 
         // Redirigir al usuario a la página de inicio de sesión (o cualquier otra página)
         router.push('./login');  
