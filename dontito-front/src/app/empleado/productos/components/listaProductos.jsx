@@ -70,8 +70,14 @@ const ListaProductos = ({ searchTerm }) => {
     };
 
     const handleDeleteProduct = async (id) => {
-        await EliminarProducto(id)
-        router.push('/empleado/productos');
+        try {
+            await EliminarProducto(id);
+            setProductos((prevProductos) => prevProductos.filter((producto) => producto.id !== id));
+            alert("Producto eliminado con éxito.");
+        } catch (error) {
+            console.error("Error al eliminar el producto:", error);
+            alert("No se puede eliminar este producto");
+        }
     };
 
     if (loading) return <p>Cargando productos...</p>;

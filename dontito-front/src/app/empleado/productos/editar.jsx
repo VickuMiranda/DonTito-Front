@@ -59,22 +59,14 @@ const Editar = ({ id }) => {
 
         formData.append('precio', producto.precio || originalProducto.precio);
 
-        formData.append('codigo', producto.codigo || originalProducto.codigo);
-
         formData.append('descripcion', producto.descripcion || originalProducto.descripcion);
-
-        formData.append('IdModelo',  idModelo);
-
-        formData.append('imagen', producto.imagen || originalProducto.imagen);
-
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
 
         try {
             await EditarProducto(producto.id, formData);
             setShowNotification(true);
-            router.push('/empleado/productos');
+            setTimeout(() => {
+                router.push('/empleado/productos'); // Redirigir después de 3 segundos
+            }, 1000);
         } catch (error) {
             setError('Error al actualizar el producto');
         }
@@ -99,6 +91,12 @@ const Editar = ({ id }) => {
                         className="w-full h-auto object-cover rounded-lg shadow-md"
                     />
                 </div>
+
+                {showNotification && (
+                        <div className="fixed right-10 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50">
+                            ¡Producto actualizado!
+                        </div>
+                    )}
 
                 <div className="space-y-4">
                     <h1 className="text-3xl font-bold">Editar Producto</h1>
@@ -128,18 +126,6 @@ const Editar = ({ id }) => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Código</label>
-                        <input
-                            name="codigo"
-                            type="text"
-                            value={producto.codigo}
-                            onChange={handleChange}
-                            required
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        />
-                    </div>
-
-                    <div>
                         <label className="block text-sm font-medium">Descripción</label>
                         <textarea
                             name="descripcion"
@@ -147,6 +133,19 @@ const Editar = ({ id }) => {
                             value={producto.descripcion}
                             onChange={handleChange}
                             required
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium">Código</label>
+                        <input
+                            name="codigo"
+                            type="text"
+                            value={producto.codigo}
+                            onChange={handleChange}
+                            required
+                            readOnly
                             className="mt-1 block w-full p-2 border border-gray-300 rounded"
                         />
                     </div>
@@ -182,12 +181,6 @@ const Editar = ({ id }) => {
                     >
                         Actualizar Producto
                     </button>
-
-                    {showNotification && (
-                        <div className="fixed right-10 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50">
-                            ¡Producto actualizado!
-                        </div>
-                    )}
                 </div>
             </form>
         </div>

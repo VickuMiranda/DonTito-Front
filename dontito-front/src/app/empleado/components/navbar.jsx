@@ -14,6 +14,10 @@ const Navbar = () => {
         router.push('/empleado/crearProducto');
     };
 
+    const verPedidos = () => {
+        router.push('/empleado');
+    };
+
     const cerrarSesion = () => {
         // Eliminar el token de localStorage
         localStorage.removeItem('token');
@@ -36,6 +40,9 @@ const Navbar = () => {
                 </button>
                 <button onClick={handleNavigateToProducts} className="button">
                     Productos
+                </button>
+                <button onClick={verPedidos} className="button">
+                    Ver Pedidos
                 </button>
                 <button onClick={cerrarSesion} className="button">
                     Cerrar Sesión 
