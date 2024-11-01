@@ -16,7 +16,7 @@ export async function getNombreMarca(data) {
     return await getMarcaXModelo(data);
 }
 
-export async function CrearProducto(data) {
+export async function crearProducto(data) {
     return await postProducto(data);
 }
 

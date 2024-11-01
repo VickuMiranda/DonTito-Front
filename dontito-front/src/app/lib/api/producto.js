@@ -26,7 +26,7 @@ export async function getProductoById(id) {
 
 export async function postProducto(data) {
     try {
-        const response = await axios.get(`https://localhost:7183/api/Producto/api/v1/agregar/producto`, data,  {
+        const response = await axios.post(`https://localhost:7183/api/Producto/api/v1/agregar/producto`, data,  {
             httpsAgent: new (require('https')).Agent({ rejectUnauthorized: false })
         });
         return response.data;

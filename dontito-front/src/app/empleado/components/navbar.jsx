@@ -15,7 +15,7 @@ const Navbar = () => {
     };
 
     const verPedidos = () => {
-        router.push('/empleado');
+        router.push('/empleado/pedidos');
     };
 
     const cerrarSesion = () => {

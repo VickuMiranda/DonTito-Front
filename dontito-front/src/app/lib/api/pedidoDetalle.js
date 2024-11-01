@@ -16,3 +16,15 @@ export async function postPedidoDetalle(idProducto, cantidad, subTotal, idPedido
         throw error;
     }
 }
+
+export async function getPedidoDetalle() {
+    try {
+        const response = await axios.get(`https://localhost:7183/api/PedidoDetalle/api/v1/pedidoDetalle/buscarPedido/${pedido}`, {
+            httpsAgent: new (require('https')).Agent({ rejectUnauthorized: false })
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching pedidos:', error);
+        throw error;
+    }
+}

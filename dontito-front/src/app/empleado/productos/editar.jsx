@@ -65,7 +65,7 @@ const Editar = ({ id }) => {
             await EditarProducto(producto.id, formData);
             setShowNotification(true);
             setTimeout(() => {
-                router.push('/empleado/productos'); // Redirigir después de 3 segundos
+                router.push('/empleado/productos'); 
             }, 1000);
         } catch (error) {
             setError('Error al actualizar el producto');
@@ -144,9 +144,8 @@ const Editar = ({ id }) => {
                             type="text"
                             value={producto.codigo}
                             onChange={handleChange}
-                            required
                             readOnly
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded bg-gray-100 cursor-not-allowed"
                         />
                     </div>
 
@@ -158,23 +157,22 @@ const Editar = ({ id }) => {
                                 name="nombreModelo"
                                 value={producto.nombreModelo}
                                 readOnly
-                                required
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                className="mt-1 block w-full p-2 border border-gray-300 rounded bg-gray-100 cursor-not-allowed"
                             />
-                        </div>
+                    </div>
                         
-                        <div className="w-1/2">
-                            <label className="block text-sm font-medium">Marca</label>
-                            <input
-                                type="text"
-                                name="marca"
-                                value={marca}
-                                readOnly
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                            />
-                        </div>
+                    <div className="w-1/2">
+                        <label className="block text-sm font-medium">Marca</label>
+                        <input
+                            type="text"
+                            name="marca"
+                            value={marca}
+                            readOnly
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded bg-gray-100 cursor-not-allowed"
+                        />
                     </div>
 
+                </div>
                     <button
                         type="submit"
                         className="custom-yellow-bg text-white py-2 px-4 rounded-full hover:bg-yellow-600 transition-colors duration-300"
