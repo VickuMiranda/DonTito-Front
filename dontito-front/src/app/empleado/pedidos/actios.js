@@ -7,6 +7,6 @@ export async function getPedidoList() {
     return await getPedido(); 
 }
 
-export async function getPedidoDetalleList(pedido) {
-    return await getPedidoDetalle(pedido); 
+export async function getPedidoDetalleList(data) {
+    return await getPedidoDetalle(data); 
 }

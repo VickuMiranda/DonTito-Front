@@ -4,17 +4,19 @@ import { useRouter } from 'next/navigation';
 import { getPedidoDetalleList } from '../actios'; 
 
 const PedidoPage = ({ params }) => {
-    const { numeroPedido } = params;
+    const { pedidoNumero } = params ;
     const [detalles, setDetalles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const router = useRouter();
+    console.log(params)
 
     useEffect(() => {
         const fetchDetalles = async () => {
             try {
                 setLoading(true);
-                const data = await getPedidoDetalleList(numeroPedido);
+                console.log("Número de pedido en fetchDetalles:", pedidoNumero);
+                const data = await getPedidoDetalleList(pedidoNumero);
                 if (Array.isArray(data)) {
                     setDetalles(data);
                 } else {
@@ -31,33 +33,32 @@ const PedidoPage = ({ params }) => {
         };
 
         fetchDetalles();
-    }, [numeroPedido]);
+    }, [pedidoNumero]);
 
     if (loading) return <p>Cargando detalles del pedido...</p>;
     if (error) return <p>{error}</p>;
 
     return (
         <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4">Detalles del Pedido #{numeroPedido}</h2>
+            <h2 className="text-2xl font-bold mb-4">Detalles del Pedido #{pedidoNumero}</h2>
             {detalles.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <ul className="space-y-4">
                     {detalles.map((detalle) => (
-                        <div
+                        <li
                             key={detalle.id}
                             className="detalle-card border rounded-lg p-4 transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
                         >
                             <h3 className="text-lg font-semibold">{detalle.nombreProducto}</h3>
                             <p>Cantidad: {detalle.cantidad}</p>
-                            <p>Subtotal: ${detalle.subTotal}</p>
-                        </div>
+                        </li>
                     ))}
-                </div>
+                </ul>
             ) : (
                 <p>No hay detalles para este pedido</p>
             )}
             <button
                 onClick={() => router.push('/empleado/pedidos')}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-full transition-colors duration-300 hover:bg-blue-600"
+                className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded-full transition-colors duration-300 hover:bg-black"
             >
                 Volver a la lista de pedidos
             </button>

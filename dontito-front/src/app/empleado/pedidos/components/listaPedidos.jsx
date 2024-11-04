@@ -46,6 +46,10 @@ const ListaPedidos = ({ searchTerm }) => {
         }
     }, [searchTerm, allPedidos]);
 
+    const handleVerDetalle = (numero) => {
+        router.push(`/empleado/pedidos/${numero}`);
+    };
+
     if (loading) return <p>Cargando pedidos...</p>;
     if (error) return <p>{error}</p>;
 
@@ -67,7 +71,7 @@ const ListaPedidos = ({ searchTerm }) => {
                                     </div>
                                     <div className="flex justify-end">
                                         <button
-                                            onClick={() => router.push(`/empleado/pedidos/${pedido.numero}`)}
+                                            onClick={() => handleVerDetalle(pedido.numero)}
                                             className="bg-yellow-500 text-white py-2 px-4 rounded-full transition-colors duration-300 hover:bg-black"
                                         >
                                             Ver Detalles
