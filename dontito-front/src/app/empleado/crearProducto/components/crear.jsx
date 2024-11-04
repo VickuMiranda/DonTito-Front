@@ -224,8 +224,15 @@ const Crear = () => {
         console.log('ID de la marca seleccionada:', selectedId);
     };
 
+    // const handleImageChange = (e) => {
+    //     setProducto((prev) => ({ ...prev, imagen: e.target.files[0] }));
+    // };
+
     const handleImageChange = (e) => {
-        setProducto((prev) => ({ ...prev, imagen: e.target.files[0] }));
+        const file = e.target.files[0];
+        if (file) {
+            setProducto((prev) => ({ ...prev, imagen: file })); // Guarda el archivo directamente
+        }
     };
 
     const handleProductoSubmit = async (e) => {
@@ -239,7 +246,7 @@ const Crear = () => {
 
             const modeloCreado = await crearModelo(modeloData);
             console.log('Datos del modelo:', modeloData);
-
+            
             const idModelo = modeloCreado.id; // Asumiendo que devuelve el id del modelo creado
 
             // Crear el producto usando `idModelo`
@@ -248,9 +255,11 @@ const Crear = () => {
             formData.append('precio', producto.precio);
             formData.append('codigo', producto.codigo);
             formData.append('descripcion', producto.descripcion);
-            formData.append('imagen', producto.imagen);
             formData.append('idModelo', idModelo); // Asignar el id del modelo creado
-
+            formData.append('files', producto.imagen);
+            
+            console.log(formData)
+            console.log(producto)
             await crearProducto(formData);
             alert('Producto creado exitosamente');
         } catch (error) {

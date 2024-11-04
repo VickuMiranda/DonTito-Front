@@ -24,11 +24,15 @@ export async function getProductoById(id) {
     }
 }
 
-export async function postProducto(data) {
+export async function postProducto(formData) {
     try {
-        const response = await axios.post(`https://localhost:7183/api/Producto/api/v1/agregar/producto`, data,  {
+        const response = await axios.post(`https://localhost:7183/api/Producto/api/v1/agregar/producto`, formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data' // Opcional, axios lo configura automáticamente con FormData
+            },
             httpsAgent: new (require('https')).Agent({ rejectUnauthorized: false })
-        });
+        }
+    );
         return response.data;
     } catch (error) {
         console.error('Error fetching products:', error);

@@ -16,8 +16,8 @@ export async function getNombreMarca(data) {
     return await getMarcaXModelo(data);
 }
 
-export async function crearProducto(data) {
-    return await postProducto(data);
+export async function crearProducto(formData) {
+    return await postProducto(formData);
 }
 
 export async function EditarProducto(id, producto) {
