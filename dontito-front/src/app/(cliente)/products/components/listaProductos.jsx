@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { getProductoList } from "../action";
+import Image from "next/image";
 
 
 const ListaProductos = ({ searchTerm }) => {
@@ -73,8 +74,9 @@ const ListaProductos = ({ searchTerm }) => {
     if (error) return <p>{error}</p>;
 
     return (
-        <div className="min-h-screen flex flex-col"> {/* Clase para ocupar toda la pantalla */}
-            <div className="flex-grow producto-list"> {/* Flex-grow para que el contenido crezca y ocupe el espacio restante */}
+        <section>
+        <div className="min-h-screen flex flex-col"> 
+            <div className="flex-grow producto-list"> 
                 {productos.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {productos.map((producto) => (
@@ -83,7 +85,7 @@ const ListaProductos = ({ searchTerm }) => {
                                 className="producto-card border rounded-lg p-4 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-white"
                                 onClick={() => handleProductClick(producto.id)}
                             >
-                                <img
+                                <Image
                                     width={200}
                                     height={300}
                                     src={`data:image/jpeg;base64,${producto.imagen}`}
@@ -113,7 +115,8 @@ const ListaProductos = ({ searchTerm }) => {
                     </div>
                 )}
             </div>
-        </div>
+            </div>
+        </section>
     );
     
 };

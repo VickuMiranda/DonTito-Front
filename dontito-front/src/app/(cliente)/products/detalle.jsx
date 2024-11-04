@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getProductoId } from './action';
-import '../globals.css';
+import '../../globals.css';
 import { getNombreMarca } from './action';
-
+import Image from 'next/image';
 const Detalle = ({ id }) => {
     const router = useRouter();
     const [producto, setProducto] = useState(null);
@@ -39,20 +39,16 @@ const Detalle = ({ id }) => {
     if (!producto) return <p>Producto no encontrado.</p>;
 
     const handleAddToCart = () => {
-        let cart = JSON.parse(sessionStorage.getItem('cart')) || []; // Recuperar carrito existente
+        let cart = JSON.parse(sessionStorage.getItem('cart')) || []; 
     
-        // Verificar si el producto ya está en el carrito
         const existingProductIndex = cart.findIndex(item => item.id === producto.id);
     
         if (existingProductIndex > -1) {
-            // Si el producto ya está, sobrescribir la cantidad con 1
             cart[existingProductIndex].cantidad = 1;
         } else {
-            // Si no está, agregar el nuevo producto con cantidad 1
             cart.push({ ...producto, cantidad: 1 });
         }
-    
-        // Guardar el carrito actualizado en sessionStorage
+
         sessionStorage.setItem('cart', JSON.stringify(cart));
         setShowNotification(true);
         setTimeout(() => {
@@ -73,9 +69,11 @@ const Detalle = ({ id }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <img
+                    <Image
                         src={`data:image/jpeg;base64,${producto.imagen}`}
                         alt={producto.nombre}
+                        width={200}
+                        height={300}
                         className="w-full h-auto object-cover rounded-lg shadow-md"
                     />
                 </div>
@@ -86,7 +84,7 @@ const Detalle = ({ id }) => {
 
                     <div className="flex items-center space-x-4 mt-4">
                         <button 
-                            className="custom-yellow-bg text-white py-2 px-4 rounded-full ml-4 hover:bg-yellow-600 transition-colors duration-300"
+                            className="custom-yellow-bg text-white py-2 px-4 rounded-full hover:bg-yellow-600 transition-colors duration-300"
                             onClick={handleAddToCart}
                         >
                             AÑADIR AL CARRITO

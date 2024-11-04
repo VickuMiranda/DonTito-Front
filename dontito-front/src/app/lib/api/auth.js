@@ -1,18 +1,23 @@
-import 'server-only'
+import axios from 'axios';
+import 'server-only';
 
-export async function loginAPI(data){
-    const res = await fetch('https://localhost:7183/api/Login/Login',{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
+export async function loginAPI(data) {
+    try {
+        console.log('Datos enviados:', data);
+        
+        // Realizar la solicitud con axios
+        const res = await axios.post('https://localhost:7183/api/Login/Login', data, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
 
-    if(!res.ok){
-        throw new Error('Failed to fetch data')
+        
+
+        // Devolver el objeto completo de la API
+        return res.data;  // Devuelve el objeto completo, no solo el token
+    } catch (error) {
+        console.error("Error en el login:", error.response ? error.response.data : error.message);
+        throw error;  // Propaga el error para manejarlo en el cliente
     }
-
-    return "Bearer " + res.json()
 }
-
