@@ -11,10 +11,7 @@ export async function loginAPI(data) {
                 'Content-Type': 'application/json',
             }
         });
-
-        
-
-        // Devolver el objeto completo de la API
+       
         return res.data;  // Devuelve el objeto completo, no solo el token
     } catch (error) {
         console.error("Error en el login:", error.response ? error.response.data : error.message);
